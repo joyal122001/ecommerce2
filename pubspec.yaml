@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   iconly: ^1.0.1
   card_swiper: ^3.0.1
+  fancy_shimmer_image: ^2.0.3
+  page_transition: ^2.0.9
 
 dev_dependencies:
   flutter_test:
