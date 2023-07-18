@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:store_api_flutter_course/consts/global_colors.dart';
+import 'package:store_api_flutter_course/screens/categories_screen.dart';
 import 'package:store_api_flutter_course/screens/product_details.dart';
 import 'package:store_api_flutter_course/screens/product_screen.dart';
+import 'package:store_api_flutter_course/services/api_handler.dart';
 import 'package:store_api_flutter_course/widgets/product_widget.dart';
 
 import '../widgets/sales_widget.dart';
@@ -31,6 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    APIHandler.getAllProducts();
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
@@ -41,7 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Home'),
           leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: CategoriesScreen(),
+                      type: PageTransitionType.fade),
+              );
+            },
             icon: const Icon(IconlyBold.category),
           ),
           actions: <Widget>[
@@ -117,18 +132,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 3,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 0,
-                            mainAxisSpacing: 0,
-                            childAspectRatio: 0.6),
-                    itemBuilder: (ctx, index) {
-                      return const ProductWidget();
-                    },
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 3,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
+                      childAspectRatio: 0.6),
+                  itemBuilder: (ctx, index) {
+                    return const ProductWidget();
+                  },
                 ),
               ],
             ),
