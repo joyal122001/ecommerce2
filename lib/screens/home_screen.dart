@@ -7,8 +7,10 @@ import 'package:store_api_flutter_course/screens/categories_screen.dart';
 import 'package:store_api_flutter_course/screens/product_details.dart';
 import 'package:store_api_flutter_course/screens/product_screen.dart';
 import 'package:store_api_flutter_course/services/api_handler.dart';
+import 'package:store_api_flutter_course/widgets/product_grid.dart';
 import 'package:store_api_flutter_course/widgets/product_widget.dart';
 
+import '../models/product_model.dart';
 import '../widgets/sales_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController _textEditingController;
+  List<ProductModel> productsList = [];
   @override
   void initState() {
     _textEditingController = TextEditingController();
@@ -34,10 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void didChangeDependencies() {
-    APIHandler.getAllProducts();
+    getProducts();
     super.didChangeDependencies();
   }
 
+  Future<void> getProducts() async {
+    productsList = await APIHandler.getAllProducts();
+   setState(() {
+   });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -131,19 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 0,
-                      mainAxisSpacing: 0,
-                      childAspectRatio: 0.6),
-                  itemBuilder: (ctx, index) {
-                    return const ProductWidget();
-                  },
-                ),
+                productsList.isEmpty
+                ? Container()
+                : ProductGridWidget(productsList: productsList),
               ],
             ),
           ),

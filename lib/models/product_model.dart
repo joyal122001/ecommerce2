@@ -22,6 +22,12 @@ class ProductModel {
     price = json['price'];
     description = json['description'];
     images = json['images'].cast<String>();
-    category = json['category'] != null ? new CategoriesModel.fromJson(json['category']) : null;
+    category = json['category'] != null ? CategoriesModel.fromJson(json['category']) : null;
+  }
+  static List<ProductModel> productsFromSnapshot (List productSnapshot){
+    //print("data ${productSnapshot[0]}");
+    return productSnapshot.map((data) {
+      return ProductModel.fromJson(data);
+    }).toList();
   }
 }

@@ -7,7 +7,8 @@ import 'package:store_api_flutter_course/consts/global_colors.dart';
 import 'package:store_api_flutter_course/screens/product_details.dart';
 
 class ProductWidget extends StatelessWidget {
-  const ProductWidget({Key? key}) : super(key: key);
+  const ProductWidget({Key? key, required this.title, required this.imageUrl}) : super(key: key);
+  final String title,imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +70,17 @@ class ProductWidget extends StatelessWidget {
                     size: 28,
                   ),
                   imageUrl:
-                      'https://www.w3schools.com/images/w3schools_green.jpg',
+                     imageUrl,
                   boxFit: BoxFit.fill,
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  "Title",
+                  title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
