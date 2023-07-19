@@ -2,12 +2,15 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:provider/provider.dart';
+import 'package:store_api_flutter_course/models/categories_model.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final CategoriesModel categoryModelProvider = Provider.of<CategoriesModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -25,13 +28,13 @@ class CategoryWidget extends StatelessWidget {
                 size: 28,
               ),
               imageUrl:
-              'https://www.w3schools.com/images/w3schools_green.jpg',
+              categoryModelProvider.image.toString(),
               boxFit: BoxFit.fill,
             ),
           ),
           Align(
             alignment: Alignment.center,
-            child: Text('Cat name',
+            child: Text(categoryModelProvider.name.toString(),
             textAlign: TextAlign.center,
             style: TextStyle(backgroundColor: Colors.red),),
           )

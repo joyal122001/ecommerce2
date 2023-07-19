@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:store_api_flutter_course/models/categories_model.dart';
 import 'package:store_api_flutter_course/widgets/category_widget.dart';
+
+import '../services/api_handler.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -8,19 +12,38 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Categories'),),
-      body: GridView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: 3,
-        gridDelegate:
-        const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 0,
-            mainAxisSpacing: 0,
-            childAspectRatio: 1.2),
-        itemBuilder: (ctx, index) {
-          return const CategoryWidget();
-        },
+      body:   FutureBuilder<List<CategoriesModel>> (
+          future: APIHandler.getAllCategories(),
+          builder: ((context,snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting)
+            {
+              return Center(child: CircularProgressIndicator());
+            }
+            else if(snapshot.hasError){
+              return Center(child: Text("An error occured ${snapshot.error}"));
+            }
+            else if(snapshot.data == null){
+              return Center(child: Text("No Products"));
+            }
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 3,
+              gridDelegate:
+              const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: 1.2),
+              itemBuilder: (ctx, index) {
+                return ChangeNotifierProvider.value(
+                    value: snapshot.data![index],
+                    child: CategoryWidget());
+              },
+            );
+          }
+          )
+
       ),
     );
   }

@@ -3,15 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:store_api_flutter_course/consts/global_colors.dart';
+import 'package:store_api_flutter_course/models/product_model.dart';
 import 'package:store_api_flutter_course/screens/product_details.dart';
 
 class ProductWidget extends StatelessWidget {
-  const ProductWidget({Key? key, required this.title, required this.imageUrl}) : super(key: key);
-  final String title,imageUrl;
-
+  const ProductWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final ProductModel productModelProvider = Provider.of<ProductModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(2),
@@ -24,7 +25,7 @@ class ProductWidget extends StatelessWidget {
             Navigator.push(
                 context,
                 PageTransition(
-                    child: ProductDetails(), type: PageTransitionType.fade),
+                    child: ProductDetails(id: productModelProvider.id.toString(),), type: PageTransitionType.fade),
             );
           },
           child: Column(
@@ -38,13 +39,13 @@ class ProductWidget extends StatelessWidget {
                     Flexible(
                       child: RichText(
                         text: TextSpan(
-                            text: '\$',
+                            text: '\₹',
                             style: const TextStyle(
                               color: Color.fromRGBO(33, 150, 243, 1),
                             ),
                             children: <TextSpan>[
                               TextSpan(
-                                text: "170.80",
+                                text: "${productModelProvider.price}",
                                 style: TextStyle(
                                     color: lightTextColor,
                                     fontWeight: FontWeight.w600),
@@ -64,13 +65,13 @@ class ProductWidget extends StatelessWidget {
                 child: FancyShimmerImage(
                   height: size.height * 0.2,
                   width: double.infinity,
-                  errorWidget: Icon(
+                  errorWidget: const Icon(
                     IconlyBold.danger,
                     color: Colors.red,
                     size: 28,
                   ),
                   imageUrl:
-                     imageUrl,
+                     productModelProvider.images![0],
                   boxFit: BoxFit.fill,
                 ),
               ),
@@ -78,12 +79,12 @@ class ProductWidget extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text(
-                  title,
+                  productModelProvider.title.toString(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
                 ),
               ),
               SizedBox(

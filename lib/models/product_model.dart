@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:store_api_flutter_course/models/categories_model.dart';
 
-class ProductModel {
+class ProductModel with ChangeNotifier{
   int? id;
   String? title;
   int? price;
@@ -25,7 +26,6 @@ class ProductModel {
     category = json['category'] != null ? CategoriesModel.fromJson(json['category']) : null;
   }
   static List<ProductModel> productsFromSnapshot (List productSnapshot){
-    //print("data ${productSnapshot[0]}");
     return productSnapshot.map((data) {
       return ProductModel.fromJson(data);
     }).toList();

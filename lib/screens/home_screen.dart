@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController _textEditingController;
-  List<ProductModel> productsList = [];
+ // List<ProductModel> productsList = [];
   @override
   void initState() {
     _textEditingController = TextEditingController();
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  @override
+ /* @override
   void didChangeDependencies() {
     getProducts();
     super.didChangeDependencies();
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     productsList = await APIHandler.getAllProducts();
    setState(() {
    });
-  }
+  }*/
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -139,9 +139,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                productsList.isEmpty
-                ? Container()
-                : ProductGridWidget(productsList: productsList),
+                FutureBuilder<List<ProductModel>> (
+                  future: APIHandler.getAllProducts(),
+                    builder: ((context,snapshot){
+                      if(snapshot.connectionState == ConnectionState.waiting)
+                        {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      else if(snapshot.hasError){
+                        return Center(child: Text("An error occured ${snapshot.error}"));
+                      }
+                      else if(snapshot.data == null){
+                        return Center(child: Text("No Products"));
+                      }
+                      return ProductGridWidget(productsList: snapshot.data!);
+
+    }
+    )
+                ),
               ],
             ),
           ),
