@@ -15,7 +15,7 @@ class ProductWidget extends StatelessWidget {
     final ProductModel productModelProvider = Provider.of<ProductModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(3),
       child: Material(
         borderRadius: BorderRadius.circular(8),
         color: Theme.of(context).cardColor,
@@ -32,7 +32,7 @@ class ProductWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 5, right: 5, top: 8),
+                padding: const EdgeInsets.only(left: 5, right: 5, top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -53,15 +53,15 @@ class ProductWidget extends StatelessWidget {
                             ]),
                       ),
                     ),
-                    const Icon(IconlyBold.heart),
+                    const Icon(Icons.favorite_outline_rounded),
                   ],
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 8,
               ),
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
                 child: FancyShimmerImage(
                   height: size.height * 0.2,
                   width: double.infinity,
@@ -79,7 +79,7 @@ class ProductWidget extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.only(left: 8),
                 child: Text(
                   productModelProvider.title.toString(),
                   overflow: TextOverflow.ellipsis,
@@ -87,10 +87,7 @@ class ProductWidget extends StatelessWidget {
                   style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.01,
-              )
-            ],
+                          ],
           ),
         ),
       ),

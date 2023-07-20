@@ -4,12 +4,12 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
-import 'package:store_api_flutter_course/services/api_handler.dart';
 
 import '../consts/global_colors.dart';
 import '../models/product_model.dart';
-import '../widgets/sales_widget.dart';
+import '../services/api_handler.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({Key? key, required this.id}) : super(key: key);
@@ -47,18 +47,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                 height: 18,
               ),
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const BackButton(),
                     Text(
-                      productModel!.category.toString(),
+                      productModel!.category!.name.toString(),
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                         GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w400)
                     ),
                     const SizedBox(
-                      height: 18,
+                      height: 12,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,14 +68,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                           child: Text(
                             productModel!.title.toString(),
                             textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 19),
+                            style: GoogleFonts.poppins(fontSize: 28,fontWeight: FontWeight.w700),
                           ),
                         ),
                         Flexible(
                           flex: 1,
                           child: RichText(
                             text: TextSpan(
-                                text: '\$',
+                                text: '\₹',
                                 style: const TextStyle(
                                   fontSize: 25,
                                   color: Color.fromRGBO(33, 150, 243, 1),
@@ -118,7 +118,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     pagination: const SwiperPagination(
                       alignment: Alignment.bottomCenter,
                       builder: DotSwiperPaginationBuilder(
-                          color: Colors.white, activeColor: Colors.red),
+                          color: Colors.white, activeColor: Colors.black87),
                     ),
                   ),
                 ),
@@ -133,14 +133,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                   children: [
                     Text(
                       productModel!.description.toString(),
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 20)
                     ),
                     SizedBox(
                       height: 18,
                     ),
+                    Center(
+                      child: ElevatedButton(onPressed: (){}, style: ElevatedButton.styleFrom(primary: lightIconsColor),child: Text("Add to cart",style: GoogleFonts.poppins(fontSize: 18,),
+                      ),),
+                    )
                   ],
                 ),
               )

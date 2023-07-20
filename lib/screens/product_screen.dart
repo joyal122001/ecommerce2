@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 
 import '../models/product_model.dart';
@@ -14,15 +13,32 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  final ScrollController scrollController= ScrollController();
   List<ProductModel> productsList = [];
+  int limit=10;
+  bool isLoading=false;
+  bool isLimit=false;
   @override
   void didChangeDependencies() {
     getProducts();
     super.didChangeDependencies();
+    scrollController.addListener(() async{
+      if(scrollController.position.pixels==scrollController.position.maxScrollExtent)
+    {
+      isLoading=true;
+      limit=limit+10;
+      await getProducts();
+      isLoading=false;
+    }});
   }
+@override
+    void dispose(){
+    scrollController.dispose();
+    super.dispose();
+}
 
   Future<void> getProducts() async {
-    productsList = await APIHandler.getAllProducts();
+    productsList = await APIHandler.getAllProducts(limit: limit.toString());
     setState(() {
 
     });
@@ -36,23 +52,34 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
       body: productsList.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : GridView.builder(
-             // shrinkWrap: true,
-             // physics: NeverScrollableScrollPhysics(),
-              itemCount: productsList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 0,
-                  mainAxisSpacing: 0,
-                  childAspectRatio: 0.6),
-              itemBuilder: (ctx, index) {
-                return ChangeNotifierProvider.value(
-                  value: productsList[index],
-                  child: ProductWidget(
+          : SingleChildScrollView(
+        controller: scrollController,
+            child: Column(
+              children: [
+                GridView.builder(
+                    controller: scrollController,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: productsList.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 0,
+                        mainAxisSpacing: 0,
+                        childAspectRatio: 0.6),
+                    itemBuilder: (ctx, index) {
+                      return ChangeNotifierProvider.value(
+                        value: productsList[index],
+                        child: const ProductWidget(
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                if(isLoading)
+                  const Center(child: CircularProgressIndicator(),),
+
+              ],
             ),
+          ),
     );
   }
 }

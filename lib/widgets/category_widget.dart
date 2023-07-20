@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
+import 'package:store_api_flutter_course/consts/global_colors.dart';
 import 'package:store_api_flutter_course/models/categories_model.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -13,9 +14,9 @@ class CategoryWidget extends StatelessWidget {
     final CategoriesModel categoryModelProvider = Provider.of<CategoriesModel>(context);
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(5.0),
       child: Container(
-        color: Colors.blue,
+        color: lightScaffoldColor,
         child: Stack(children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
@@ -36,7 +37,7 @@ class CategoryWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(categoryModelProvider.name.toString(),
             textAlign: TextAlign.center,
-            style: TextStyle(backgroundColor: Colors.red),),
+            style: TextStyle(backgroundColor: Colors.white),),
           )
         ],),
       ),

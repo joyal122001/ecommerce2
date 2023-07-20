@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:store_api_flutter_course/consts/global_colors.dart';
 
 class SalesWidget extends StatelessWidget {
    const SalesWidget({Key? key}) : super(key: key);
@@ -10,18 +11,18 @@ class SalesWidget extends StatelessWidget {
        width: double.infinity,
        height: size.height * 0.2,
        decoration: BoxDecoration(
-         borderRadius: BorderRadius.circular(18),
        ),
        child: Row(
          children: [
            Flexible(
                flex: 3,
                child: Padding(
-                 padding: const EdgeInsets.all(14),
+                 padding: const EdgeInsets.all(5),
                  child: Container(
                    height: double.infinity,
                    decoration: BoxDecoration(
-                     color: const Color(0xFF9689CE)
+                     borderRadius: BorderRadius.circular(6),
+                     color: lightTextColor,
                    ),
                  ),
 

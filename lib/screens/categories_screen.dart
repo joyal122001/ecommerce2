@@ -17,17 +17,17 @@ class CategoriesScreen extends StatelessWidget {
           builder: ((context,snapshot){
             if(snapshot.connectionState == ConnectionState.waiting)
             {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             else if(snapshot.hasError){
               return Center(child: Text("An error occured ${snapshot.error}"));
             }
             else if(snapshot.data == null){
-              return Center(child: Text("No Products"));
+              return const Center(child: Text("No Products"));
             }
             return GridView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: 3,
               gridDelegate:
               const SliverGridDelegateWithFixedCrossAxisCount(
@@ -38,7 +38,7 @@ class CategoriesScreen extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 return ChangeNotifierProvider.value(
                     value: snapshot.data![index],
-                    child: CategoryWidget());
+                    child: const CategoryWidget());
               },
             );
           }

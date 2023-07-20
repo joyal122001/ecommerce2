@@ -1,17 +1,17 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:store_api_flutter_course/consts/global_colors.dart';
-import 'package:store_api_flutter_course/screens/categories_screen.dart';
-import 'package:store_api_flutter_course/screens/product_details.dart';
-import 'package:store_api_flutter_course/screens/product_screen.dart';
-import 'package:store_api_flutter_course/services/api_handler.dart';
-import 'package:store_api_flutter_course/widgets/product_grid.dart';
-import 'package:store_api_flutter_course/widgets/product_widget.dart';
+import 'package:store_api_flutter_course/screens/cart_screen.dart';
 
+import '../consts/global_colors.dart';
 import '../models/product_model.dart';
+import '../services/api_handler.dart';
+import '../widgets/product_grid.dart';
 import '../widgets/sales_widget.dart';
+import 'categories_screen.dart';
+import 'product_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController _textEditingController;
- // List<ProductModel> productsList = [];
+  // List<ProductModel> productsList = [];
   @override
   void initState() {
     _textEditingController = TextEditingController();
@@ -35,17 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
- /* @override
-  void didChangeDependencies() {
-    getProducts();
-    super.didChangeDependencies();
-  }
-
-  Future<void> getProducts() async {
-    productsList = await APIHandler.getAllProducts();
-   setState(() {
-   });
-  }*/
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -55,30 +44,42 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: Text(
+            'Home',
+            style: GoogleFonts.poppins(
+                textStyle:
+                    TextStyle(fontSize: 25, fontWeight: FontWeight.w500)),
+          ),
           leading: IconButton(
             onPressed: () {
               Navigator.push(
-                  context,
-                  PageTransition(
-                      child: CategoriesScreen(),
-                      type: PageTransitionType.fade),
+                context,
+                PageTransition(
+                    child: const CategoriesScreen(),
+                    type: PageTransitionType.fade),
               );
             },
             icon: const Icon(IconlyBold.category),
           ),
           actions: <Widget>[
-            IconButton(onPressed: () {}, icon: const Icon(IconlyBold.user_2))
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          child: CartScreen(), type: PageTransitionType.fade));
+                },
+                icon: const Icon(Icons.shopping_cart))
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 6, top: 0, right: 6, bottom: 3),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
-                  height: 18,
+                  height: 3,
                 ),
                 TextField(
                   controller: _textEditingController,
@@ -112,18 +113,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     pagination: const SwiperPagination(
                       alignment: Alignment.bottomCenter,
                       builder: DotSwiperPaginationBuilder(
-                          color: Colors.white, activeColor: Colors.red),
+                          color: Colors.white, activeColor: Colors.black87),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Row(
                     children: [
-                      const Text(
-                        "Latest Products",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
+                      Text(
+                        'Latest Products',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 23, fontWeight: FontWeight.w600)),
                       ),
                       const Spacer(),
                       IconButton(
@@ -135,28 +137,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   type: PageTransitionType.fade),
                             );
                           },
-                          icon: const Icon(IconlyBold.arrow_right)),
+                          icon: const Icon(Icons.arrow_forward_ios_rounded)),
                     ],
                   ),
                 ),
-                FutureBuilder<List<ProductModel>> (
-                  future: APIHandler.getAllProducts(),
-                    builder: ((context,snapshot){
-                      if(snapshot.connectionState == ConnectionState.waiting)
-                        {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                      else if(snapshot.hasError){
-                        return Center(child: Text("An error occured ${snapshot.error}"));
-                      }
-                      else if(snapshot.data == null){
-                        return Center(child: Text("No Products"));
+                FutureBuilder<List<ProductModel>>(
+                    future: APIHandler.getAllProducts(limit: "4"),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(
+                            child: Text("An error occured ${snapshot.error}"));
+                      } else if (snapshot.data == null) {
+                        return const Center(child: Text("No Products"));
                       }
                       return ProductGridWidget(productsList: snapshot.data!);
-
-    }
-    )
-                ),
+                    })),
               ],
             ),
           ),
