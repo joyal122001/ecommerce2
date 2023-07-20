@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:store_api_flutter_course/screens/cart_screen.dart';
-
 import '../consts/global_colors.dart';
 import '../models/product_model.dart';
 import '../services/api_handler.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/sales_widget.dart';
+import 'cart_screen.dart';
 import 'categories_screen.dart';
 import 'product_screen.dart';
 

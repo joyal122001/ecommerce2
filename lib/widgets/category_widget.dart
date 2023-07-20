@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
-import 'package:store_api_flutter_course/consts/global_colors.dart';
-import 'package:store_api_flutter_course/models/categories_model.dart';
+
+import '../consts/global_colors.dart';
+import '../models/categories_model.dart';
+
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({Key? key}) : super(key: key);

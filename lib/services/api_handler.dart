@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:store_api_flutter_course/consts/api_consts.dart';
-import 'package:store_api_flutter_course/models/categories_model.dart';
-import 'package:store_api_flutter_course/models/product_model.dart';
+
+import '../consts/api_consts.dart';
+import '../models/categories_model.dart';
+import '../models/product_model.dart';
+
 
   class APIHandler {
     static Future<List<dynamic>> getData ({required String target, String? limit})async{

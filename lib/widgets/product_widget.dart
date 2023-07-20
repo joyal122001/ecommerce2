@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:store_api_flutter_course/consts/global_colors.dart';
-import 'package:store_api_flutter_course/models/product_model.dart';
-import 'package:store_api_flutter_course/screens/product_details.dart';
+
+import '../consts/global_colors.dart';
+import '../models/product_model.dart';
+import '../screens/product_details.dart';
+
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({Key? key}) : super(key: key);

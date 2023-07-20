@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:store_api_flutter_course/consts/global_colors.dart';
+
+import '../consts/global_colors.dart';
+
 
 class SalesWidget extends StatelessWidget {
    const SalesWidget({Key? key}) : super(key: key);

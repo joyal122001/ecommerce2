@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store_api_flutter_course/models/categories_model.dart';
-import 'package:store_api_flutter_course/widgets/category_widget.dart';
 
+
+import '../models/categories_model.dart';
 import '../services/api_handler.dart';
+import '../widgets/category_widget.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
